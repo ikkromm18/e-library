@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/peminjaman', fn () => view('dashboard'))->name('peminjaman.index');
     Route::get('/pengembalian', fn () => view('dashboard'))->name('pengembalian.index');
     Route::get('/laporan', fn () => view('dashboard'))->name('laporan.index');
-    Route::get('/pengguna', fn () => view('dashboard'))->middleware('can:manage-system')->name('pengguna.index');
+    Route::get('/pengguna', fn () => view('pengguna.index'))->middleware('can:manage-system')->name('pengguna.index');
     Route::get('/setting', fn () => view('dashboard'))->middleware('can:manage-system')->name('setting.index');
 });
 
