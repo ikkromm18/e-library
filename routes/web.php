@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function () {
     // Placeholder routes — will be replaced by Livewire components
     Route::get('/buku', fn () => view('dashboard'))->name('buku.index');
     Route::get('/kategori', fn () => view('kategori.index'))->name('kategori.index');
-    Route::get('/rak', fn () => view('dashboard'))->name('rak.index');
+    Route::get('/rak', fn () => view('rak.index'))->name('rak.index');
     Route::get('/anggota', fn () => view('dashboard'))->name('anggota.index');
     Route::get('/peminjaman', fn () => view('dashboard'))->name('peminjaman.index');
     Route::get('/pengembalian', fn () => view('dashboard'))->name('pengembalian.index');
