@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/buku', fn () => view('buku.index'))->name('buku.index');
     Route::get('/kategori', fn () => view('kategori.index'))->name('kategori.index');
     Route::get('/rak', fn () => view('rak.index'))->name('rak.index');
-    Route::get('/anggota', fn () => view('dashboard'))->name('anggota.index');
+    Route::get('/anggota', fn () => view('anggota.index'))->name('anggota.index');
     Route::get('/peminjaman', fn () => view('dashboard'))->name('peminjaman.index');
     Route::get('/pengembalian', fn () => view('dashboard'))->name('pengembalian.index');
     Route::get('/laporan', fn () => view('dashboard'))->name('laporan.index');
