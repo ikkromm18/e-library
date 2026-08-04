@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Placeholder routes — will be replaced by Livewire components
-    Route::get('/buku', fn () => view('dashboard'))->name('buku.index');
+    Route::get('/buku', fn () => view('buku.index'))->name('buku.index');
     Route::get('/kategori', fn () => view('kategori.index'))->name('kategori.index');
     Route::get('/rak', fn () => view('rak.index'))->name('rak.index');
     Route::get('/anggota', fn () => view('dashboard'))->name('anggota.index');
