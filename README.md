@@ -17,6 +17,55 @@ Aplikasi manajemen perpustakaan berbasis web dengan antarmuka berbahasa Indonesi
 | **Pengguna** | Manajemen user (admin/petugas) — khusus admin |
 | **Pengaturan** | Nama perpustakaan, logo (upload), lama pinjam, maksimal buku — khusus admin |
 
+## Alur Kerja per Modul
+
+Berikut penjelasan bagaimana setiap modul bekerja, dari sudut pandang penggunaan harian petugas perpustakaan.
+
+### Setup Awal Aplikasi
+1. Login sebagai **admin** → menu **Pengaturan**, isi nama perpustakaan, upload logo, atur **lama pinjam** (hari) dan **maksimal buku** per peminjaman.
+2. Lewat menu **Kategori** dan **Rak**, siapkan pengelompokan koleksi.
+3. Buat anggota lewat menu **Anggota** (manual atau import Excel).
+4. Tambah buku lewat menu **Buku** — kode buku dibuat otomatis, tentukan kategori & rak, serta jumlah eksemplar.
+
+### Buku
+1. Buka menu **Buku** → klik **Tambah Buku** → isi data (judul, pengarang, penerbit, tahun, kategori, rak, jumlah eksemplar).
+2. Kode buku (`BUK-xxxx`) terisi otomatis dan tidak bisa bentrok.
+3. Gunakan kotak pencarian + filter (kategori, rak, pengarang, penerbit, tahun) untuk menyaring daftar.
+4. Buku yang sudah punya riwayat pinjam tidak bisa dihapus; stok tidak bisa dikurangi di bawah jumlah yang sedang dipinjam.
+
+### Anggota
+1. Admin/petugas membuat record anggota (NIS, nama, kelas, jenis kelamin, kontak) atau **mengimpor** dari Excel.
+2. Import Excel: unduh **template** → isi di Excel → halaman **Import** menampilkan **preview** + hitungan (berhasil / dilewati / error) → konfirmasi simpan. Baris tidak valid dilewati tanpa menggagalkan seluruh file.
+3. Ubah status anggota bila perlu (aktif, lulus, pindah, nonaktif — mis. karena lulus sekolah).
+
+### Peminjaman
+1. Buka menu **Peminjaman** → cari **anggota berdasarkan NIS/nama** → pilih buku.
+2. Sistem validasi otomatis oleh `PeminjamanService: jumlah buku tidak melebihi **maksimal buku**, anggota masih **aktif**, stok buku **tersedia**, durasi mengikuti **lama pinjam** dari pengaturan.
+3. Transaksi tersimpan dengan `no_transaksi` otomatis dan tanggal jatuh tempo.
+
+### Pengembalian
+1. Buka menu **Pengembalian** → cari berdasarkan **no_transaksi** (data transaksi aktif muncul).
+2. Klik kembali per buku yang dikembalikan.
+3. Sistem menghitung **keterlambatan** otomatis jika melewati jatuh tempo (0 = tepat waktu).
+4. Jika semua buku sudah kembali, status transaksi berubah **selesai**.
+
+### Dashboard
+- Terlihat di halaman utama setelah login: total buku (judul & eksemplar), total anggota, jumlah sedang dipinjam, terlambat, kembali hari ini, serta **grafik peminjaman 7 hari terakhir**.
+- Tautan cepat ke menu Buku / Peminjaman / Pengembalian.
+
+### Laporan
+1. Buka menu **Laporan** → pilih tab **Buku / Anggota / Transaksi**.
+2. Terapkan filter (mis. kategori & rak untuk buku, status untuk anggota, jenis transaksi: peminjaman/pengembalian/terlambat).
+3. Data muncul sebagai **preview** di layar → klik **Export PDF** atau **Export Excel**.
+
+### Pengguna (khusus admin)
+Membuat / mengedit / menonaktifkan akun admin & petugas. Mengontrol siapa yang bisa mengelola sistem.
+
+### Pengaturan (khusus admin)
+Menyimpan identitas perpustakaan (nama, logo), serta mengubah **lama pinjam** dan **maksimal buku** — nilai ini langsung dipakai aturan peminjaman.
+
+---
+
 ## Teknologi
 
 - PHP ^8.3
