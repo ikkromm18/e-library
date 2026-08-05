@@ -10,13 +10,14 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class TransaksiExport implements FromCollection, WithHeadings
 {
-    public function __construct(private string $jenis = 'peminjaman') {}
+    public function __construct(private string $jenis = 'peminjaman', private ?string $dari = null, private ?string $sampai = null) {}
 
     public function collection(): Collection
     {
         if ($this->jenis === 'pengembalian') {
             return PeminjamanDetail::with(['peminjaman.anggota', 'buku'])
                 ->whereNotNull('tanggal_kembali')
+                ->when($this->dari && $this->sampai, fn ($q) => $q->whereBetween('tanggal_kembali', [$this->dari, $this->sampai]))
                 ->orderByDesc('tanggal_kembali')
                 ->get()
                 ->map(fn (PeminjamanDetail $d) => [
@@ -31,6 +32,7 @@ class TransaksiExport implements FromCollection, WithHeadings
             return PeminjamanDetail::with(['peminjaman.anggota', 'buku'])
                 ->whereNotNull('keterlambatan_hari')
                 ->where('keterlambatan_hari', '>', 0)
+                ->when($this->dari && $this->sampai, fn ($q) => $q->whereBetween('tanggal_kembali', [$this->dari, $this->sampai]))
                 ->orderByDesc('keterlambatan_hari')
                 ->get()
                 ->map(fn (PeminjamanDetail $d) => [
@@ -42,15 +44,16 @@ class TransaksiExport implements FromCollection, WithHeadings
                 ]);
         }
 
-        return Peminjaman::with(['anggota', 'petugas'])
+        return Peminjaman::with(['anggota', 'petugas'])->withCount('details')
             ->orderByDesc('tanggal')
+            ->when($this->dari && $this->sampai, fn ($q) => $q->whereBetween('tanggal', [$this->dari, $this->sampai]))
             ->get()
             ->map(fn (Peminjaman $p) => [
                 $p->no_transaksi,
                 $p->tanggal->format('d/m/Y'),
                 $p->anggota->nama,
                 $p->petugas->name,
-                $p->details()->count(),
+                $p->details_count,
                 $p->status,
             ]);
     }

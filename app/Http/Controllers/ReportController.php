@@ -14,13 +14,16 @@ class ReportController extends Controller
 {
     public function export(string $tipe, string $format, Request $request): Response
     {
+        $dari = $request->string('dari') ?: null;
+        $sampai = $request->string('sampai') ?: null;
+
         $export = match ($tipe) {
             'buku' => new BukuExport(
                 $request->integer('kategori_id') ?: null,
                 $request->integer('rak_id') ?: null,
             ),
-            'anggota' => new AnggotaExport($request->string('status') ?: null),
-            'transaksi' => new TransaksiExport($request->string('jenis') ?: 'peminjaman'),
+            'anggota' => new AnggotaExport($request->string('status') ?: null, $dari, $sampai),
+            'transaksi' => new TransaksiExport($request->string('jenis') ?: 'peminjaman', $dari, $sampai),
             default => abort(404),
         };
 
