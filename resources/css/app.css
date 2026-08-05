@@ -1,3 +1,60 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        color-scheme: light;
+        --body: 241 245 249;           /* gray-100 */
+        --surface: 255 255 255;       /* white */
+        --surface-raised: 255 255 255;/* white (modals) */
+        --surface-muted: 243 244 246; /* gray-100 */
+        --text-primary: 17 24 39;     /* gray-900 */
+        --text-secondary: 75 85 99;   /* gray-600 */
+        --border: 229 231 235;        /* gray-200 */
+        --accent: 37 99 235;          /* blue-600 */
+        --accent-hover: 29 78 216;    /* blue-700 */
+        --accent-soft: 239 246 255;   /* blue-50 */
+        --accent-fg: 255 255 255;
+        --success: 220 252 231;       /* green-100 */
+        --success-fg: 22 101 52;      /* green-800 */
+        --danger: 254 226 226;        /* red-100 */
+        --danger-fg: 153 27 27;       /* red-800 */
+        --danger-solid: 220 38 38;    /* red-600 */
+        --warning: 254 243 199;       /* amber-100 */
+        --warning-fg: 146 64 14;      /* amber-800 */
+    }
+
+    .dark {
+        color-scheme: dark;
+        --body: 17 24 39;             /* gray-900 */
+        --surface: 31 41 55;          /* gray-800 */
+        --surface-raised: 15 23 42;   /* near slategray-900 for modals */
+        --surface-muted: 55 65 81;    /* gray-700 */
+        --text-primary: 249 250 251;  /* gray-50 */
+        --text-secondary: 209 213 219;/* gray-300 */
+        --border: 55 65 81;           /* gray-700 */
+        --accent: 96 165 250;         /* blue-400 */
+        --accent-hover: 147 197 253;  /* blue-300 */
+        --accent-soft: 30 58 138;     /* blue-900 */
+        --accent-fg: 15 23 42;
+        --success: 22 101 52;         /* green-800 */
+        --success-fg: 134 239 172;    /* green-300 */
+        --danger: 127 29 29;          /* red-800 */
+        --danger-fg: 252 165 165;     /* red-300 */
+        --danger-solid: 239 68 68;    /* red-500 */
+        --warning: 120 53 15;         /* amber-800 */
+        --warning-fg: 252 211 77;     /* amber-300 */
+    }
+
+    body {
+        @apply bg-body text-text-primary;
+    }
+}
+
+@layer utilities {
+    .theme-transition *,
+    .theme-transition {
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+}
