@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
         ->whereIn('format', ['pdf', 'excel'])
         ->name('laporan.export');
     Route::get('/pengguna', fn () => view('pengguna.index'))->middleware('can:manage-system')->name('pengguna.index');
-    Route::get('/setting', fn () => view('dashboard'))->middleware('can:manage-system')->name('setting.index');
+    Route::get('/setting', fn () => view('setting.index'))->middleware('can:manage-system')->name('setting.index');
 });
 
 require __DIR__.'/auth.php';
