@@ -199,12 +199,12 @@ Replace `resources/css/app.css` entirely:
         --accent-hover: 147 197 253;  /* blue-300 */
         --accent-soft: 30 58 138;     /* blue-900 */
         --accent-fg: 15 23 42;
-        --success: 6 46 32 / 0.25;
+        --success: 22 101 52;         /* green-800 */
         --success-fg: 134 239 172;    /* green-300 */
-        --danger: 69 10 10 / 0.25;
+        --danger: 127 29 29;          /* red-800 */
         --danger-fg: 252 165 165;     /* red-300 */
         --danger-solid: 239 68 68;    /* red-500 */
-        --warning: 68 40 6 / 0.25;
+        --warning: 120 53 15;         /* amber-800 */
         --warning-fg: 252 211 77;     /* amber-300 */
     }
 
