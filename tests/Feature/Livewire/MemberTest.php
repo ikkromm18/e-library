@@ -3,6 +3,7 @@
 namespace Tests\Feature\Livewire;
 
 use App\Models\Anggota;
+use App\Models\Peminjaman;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -130,5 +131,17 @@ class MemberTest extends TestCase
             ->assertHasNoErrors();
 
         $this->assertDatabaseHas('anggota', ['id' => $anggota->id, 'nama' => 'Nama Baru']);
+    }
+
+    public function test_delete_anggota_dengan_riwayat_ditolak(): void
+    {
+        $anggota = Anggota::factory()->create();
+        Peminjaman::factory()->selesai()->create(['anggota_id' => $anggota->id]);
+
+        Livewire::actingAs($this->user)
+            ->test('anggota')
+            ->call('delete', $anggota->id);
+
+        $this->assertDatabaseHas('anggota', ['id' => $anggota->id]);
     }
 }

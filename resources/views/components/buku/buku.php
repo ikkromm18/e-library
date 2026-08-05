@@ -2,6 +2,7 @@
 
 use App\Models\Buku;
 use App\Models\Kategori;
+use App\Models\PeminjamanDetail;
 use App\Models\Rak;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -104,6 +105,11 @@ new class extends Component
 
         if ($this->editId) {
             $rules['isbn'] = 'nullable|string|unique:bukus,isbn,'.$this->editId;
+            $dipinjam = PeminjamanDetail::where('buku_id', $this->editId)->whereNull('tanggal_kembali')->count();
+            if ($this->jumlah_eksemplar < $dipinjam) {
+                session()->flash('error', "Jumlah eksemplar tidak boleh kurang dari jumlah yang sedang dipinjam ($dipinjam).");
+                return;
+            }
         } else {
             $rules['isbn'] = 'nullable|string|unique:bukus,isbn';
         }
@@ -149,6 +155,11 @@ new class extends Component
 
     public function delete($id): void
     {
+        if (PeminjamanDetail::where('buku_id', $id)->exists()) {
+            session()->flash('error', 'Tidak bisa hapus buku yang memiliki riwayat peminjaman.');
+            return;
+        }
+
         Buku::findOrFail($id)->delete();
         session()->flash('success', 'Buku berhasil dihapus.');
     }

@@ -4,6 +4,8 @@ namespace Tests\Feature\Livewire;
 
 use App\Models\Buku;
 use App\Models\Kategori;
+use App\Models\Peminjaman;
+use App\Models\PeminjamanDetail;
 use App\Models\Rak;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -153,5 +155,42 @@ class BookTest extends TestCase
             ->call('detail', $buku->id)
             ->assertSet('showDetail', true)
             ->assertSet('detailBuku.judul', 'Detail Book');
+    }
+
+    public function test_delete_buku_dengan_riwayat_ditolak(): void
+    {
+        $buku = Buku::factory()->create([
+            'kategori_id' => Kategori::first()->id,
+            'rak_id' => Rak::first()->id,
+        ]);
+        $peminjaman = Peminjaman::factory()->selesai()->create();
+        PeminjamanDetail::create(['peminjaman_id' => $peminjaman->id, 'buku_id' => $buku->id]);
+
+        Livewire::actingAs($this->user)
+            ->test('buku')
+            ->call('delete', $buku->id);
+
+        $this->assertDatabaseHas('bukus', ['id' => $buku->id]);
+    }
+
+    public function test_edit_buku_stok_tidak_bisa_kurang_dari_dipinjam(): void
+    {
+        $buku = Buku::factory()->create([
+            'kategori_id' => Kategori::first()->id,
+            'rak_id' => Rak::first()->id,
+            'jumlah_eksemplar' => 3,
+        ]);
+        $peminjaman1 = Peminjaman::factory()->create();
+        $peminjaman2 = Peminjaman::factory()->create();
+        PeminjamanDetail::create(['peminjaman_id' => $peminjaman1->id, 'buku_id' => $buku->id]);
+        PeminjamanDetail::create(['peminjaman_id' => $peminjaman2->id, 'buku_id' => $buku->id]);
+
+        Livewire::actingAs($this->user)
+            ->test('buku')
+            ->call('edit', $buku->id)
+            ->set('jumlah_eksemplar', 1)
+            ->call('save');
+
+        $this->assertDatabaseHas('bukus', ['id' => $buku->id, 'jumlah_eksemplar' => 3]);
     }
 }

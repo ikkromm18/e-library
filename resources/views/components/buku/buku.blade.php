@@ -7,6 +7,9 @@
     @if (session()->has('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">{{ session('success') }}</div>
     @endif
+    @if (session()->has('error'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">{{ session('error') }}</div>
+    @endif
 
     {{-- Search & Filter --}}
     <div class="bg-white rounded-lg shadow p-4 mb-6">
@@ -111,7 +114,7 @@
                         <select wire:model="rak_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                             <option value="">Pilih Rak</option>
                              @forelse (($rakList ?? []) as $r)
-                                <option value="{{ $r->kode }} - {{ $r->nama }}</option>
+                                <option value="{{ $r->id }}">{{ $r->kode }} - {{ $r->nama }}</option>
                             @empty
                             @endforelse
                         </select>

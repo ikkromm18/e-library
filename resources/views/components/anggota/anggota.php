@@ -123,8 +123,8 @@ new class extends Component
     {
         $anggota = Anggota::findOrFail($id);
 
-        if ($anggota->peminjamen()->where('status', 'dipinjam')->exists()) {
-            session()->flash('error', 'Tidak bisa hapus anggota yang masih memiliki pinjaman aktif.');
+        if ($anggota->peminjamen()->exists()) {
+            session()->flash('error', 'Tidak bisa hapus anggota yang memiliki riwayat peminjaman.');
             return;
         }
 
