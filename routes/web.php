@@ -2,6 +2,7 @@
 
 use App\Exports\AnggotaTemplateExport;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -27,7 +28,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/anggota/import/template', fn () => Excel::download(new AnggotaTemplateExport, 'template_anggota.xlsx'))->name('anggota.import.template');
     Route::get('/peminjaman', fn () => view('peminjaman.index'))->name('peminjaman.index');
     Route::get('/pengembalian', fn () => view('pengembalian.index'))->name('pengembalian.index');
-    Route::get('/laporan', fn () => view('dashboard'))->name('laporan.index');
+    Route::get('/laporan', fn () => view('laporan.index'))->name('laporan.index');
+    Route::get('/laporan/export/{tipe}/{format}', [ReportController::class, 'export'])
+        ->whereIn('tipe', ['buku', 'anggota', 'transaksi'])
+        ->whereIn('format', ['pdf', 'excel'])
+        ->name('laporan.export');
     Route::get('/pengguna', fn () => view('pengguna.index'))->middleware('can:manage-system')->name('pengguna.index');
     Route::get('/setting', fn () => view('dashboard'))->middleware('can:manage-system')->name('setting.index');
 });
