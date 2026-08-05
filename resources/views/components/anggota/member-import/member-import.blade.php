@@ -56,7 +56,7 @@
             @endif
 
             @if ($importResult['imported'] > 0)
-                <button wire:click="confirmImport" class="bg-success text-success-fg hover:bg-success-fg px-4 py-2 rounded-lg text-sm font-medium">
+                <button wire:click="confirmImport" class="bg-success text-success-fg hover:bg-success-solid px-4 py-2 rounded-lg text-sm font-medium">
                     Konfirmasi Import ({{ $importResult['imported'] }} data)
                 </button>
             @endif

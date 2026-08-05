@@ -32,6 +32,7 @@ export default {
                 success: {
                     DEFAULT: 'rgb(var(--success) / <alpha-value>)',
                     fg: 'rgb(var(--success-fg) / <alpha-value>)',
+                    solid: 'rgb(var(--success-solid) / <alpha-value>)',
                 },
                 danger: {
                     solid: 'rgb(var(--danger-solid) / <alpha-value>)',
