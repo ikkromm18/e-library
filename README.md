@@ -1,58 +1,126 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# E-Library (Aplikasi Perpustakaan Digital)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi manajemen perpustakaan berbasis web dengan antarmuka berbahasa Indonesia. Dibangun dengan **Laravel 13**, **Livewire 4.3** (pola single-file component), **Breeze** (Blade + Tailwind CSS), dan database **SQLite**.
 
-## About Laravel
+## Fitur
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Modul | Deskripsi |
+|---|---|
+| **Dashboard** | Widget total buku/eksemplar/anggota, buku sedang dipinjam, terlambat, kembali hari ini, serta grafik peminjaman 7 hari terakhir |
+| **Buku** | CRUD buku, pencarian & filter (kategori, rak, pengarang, penerbit, tahun), kode buku otomatis, cek stok tersedia |
+| **Kategori** | CRUD kategori buku |
+| **Rak** | CRUD lokasi rak buku |
+| **Anggota** | CRUD anggota, pencarian & filter, import anggota dari Excel (dengan preview & template), cek duplikat |
+| **Peminjaman** | Cari anggota, pilih buku, batas jumlah & lama pinjam (dari pengaturan), validasi stok, aturan peminjaman via `PeminjamanService` |
+| **Pengembalian** | Cari transaksi peminjaman, kembalikan per buku, hitung keterlambatan otomatis |
+| **Laporan** | Preview laporan buku / anggota / transaksi (peminjaman, pengembalian, terlambat), ekspor **PDF** & **Excel** |
+| **Pengguna** | Manajemen user (admin/petugas) — khusus admin |
+| **Pengaturan** | Nama perpustakaan, logo (upload), lama pinjam, maksimal buku — khusus admin |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Teknologi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP ^8.3
+- Laravel 13
+- Livewire 4.3 (anonymous component — kode di `resources/views/components/{modul}/{modul}.php` + `.blade.php`)
+- Laravel Breeze (Blade + Tailwind CSS 3)
+- SQLite (`database/database.sqlite`)
+- maatwebsite/excel (import/export Excel)
+- barryvdh/laravel-dompdf (export PDF)
+- Vite (build aset frontend)
 
-## Learning Laravel
+## Persyaratan
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP **8.3+** (dengan ekstensi `pdo_sqlite`, `mbstring`, `fileinfo`, `gd`/`imagick` untuk image)
+- Composer 2
+- Node.js **20+** (disarankan 22 LTS)
+- Git
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Instalasi di Laptop Baru
 
 ```bash
-composer require laravel/boost --dev
+# 1. Clone repositori
+git clone git@github.com:ikkromm18/e-library.git
+cd e-library
 
-php artisan boost:install
+# 2. Install dependency PHP
+composer install
+
+# 3. Buat file .env
+cp .env.example .env
+
+# 4. Generate application key
+php artisan key:generate
+
+# 5. Buat file database SQLite
+touch database/database.sqlite
+
+# 6. Jalankan migrasi + seeder (data demo + akun awal)
+php artisan migrate:fresh --seed
+
+# 7. Link storage (agar logo / cover bisa diakses)
+php artisan storage:link
+
+# 8. Install & build aset frontend
+npm install
+npm run build
+
+# 9. Jalankan server
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Akses aplikasi di `http://127.0.0.1:8000`.
 
-## Contributing
+> **Alternatif cepat:** beberapa langkah di atas sudah dirangkum dalam skrip `composer setup` (install + `.env` + key + migrate + build aset). Tapi tetap jalankan `php artisan migrate:fresh --seed` setelahnya agar ada data demo, dan `php artisan storage:link` untuk folder storage.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Akun Login (dari seeder)
 
-## Code of Conduct
+| Role | Email | Password |
+|---|---|---|
+| **Admin** | `admin@perpus.test` | `admin123` |
+| **Petugas 1** | `petugas1@perpus.test` | `password` |
+| **Petugas 2** | `petugas2@perpus.test` | `password` |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Menu **Pengguna** dan **Pengaturan** hanya bisa diakses akun **admin**.
 
-## Security Vulnerabilities
+## Menjalankan Mode Pengembangan
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+composer dev
+```
 
-## License
+Perintah di atas menjalankan server, antrian (`queue:listen`), log (`pail`), dan Vite secara bersamaan. Atau jalankan terpisah:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan serve        # terminal 1
+npm run dev              # terminal 2
+```
+
+## Menjalankan Test
+
+```bash
+composer test
+# atau
+php artisan test
+```
+
+Seluruh 99 test / 218 assertion dipastikan lolos pada cabang `main`.
+
+## Data Demo dari Seeder
+
+`php artisan migrate:fresh --seed` menghasilkan:
+
+- 6 kategori, 10 rak (A-01 s/d B-05)
+- 40 buku (terhubung ke kategori & rak terseed)
+- 200 anggota (campuran status aktif/nonaktif/lulus/pindah)
+- 30 transaksi peminjaman (sebagian sudah dikembalikan / terlambat)
+- 1 admin + 2 petugas
+
+## Catatan Teknis
+
+- Komponen Livewire menggunakan **pola single-file component** (anonymous class), bukan `app/Livewire/`. Contoh: `resources/views/components/peminjaman/peminjaman.php` + `peminjaman.blade.php`.
+- Modul laporan memakai class export yang sama (`app/Exports/`) untuk preview maupun unduhan PDF/Excel.
+- Stok yang tersedia dihitung dari `jumlah_eksemplar` dikurangi detail peminjaman aktif.
+
+## Lisensi
+
+Proyek ini berlisensi **MIT**.
