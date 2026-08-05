@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/anggota', fn () => view('anggota.index'))->name('anggota.index');
     Route::get('/anggota/import', fn () => view('anggota.import'))->name('anggota.import');
     Route::get('/anggota/import/template', fn () => Excel::download(new AnggotaTemplateExport, 'template_anggota.xlsx'))->name('anggota.import.template');
-    Route::get('/peminjaman', fn () => view('dashboard'))->name('peminjaman.index');
+    Route::get('/peminjaman', fn () => view('peminjaman.index'))->name('peminjaman.index');
     Route::get('/pengembalian', fn () => view('dashboard'))->name('pengembalian.index');
     Route::get('/laporan', fn () => view('dashboard'))->name('laporan.index');
     Route::get('/pengguna', fn () => view('pengguna.index'))->middleware('can:manage-system')->name('pengguna.index');
