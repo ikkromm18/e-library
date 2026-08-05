@@ -21,6 +21,7 @@
         --success-solid: 22 163 74;   /* green-600 */
         --danger: 254 226 226;        /* red-100 */
         --danger-fg: 153 27 27;       /* red-800 */
+        --danger-soft: 254 226 226;   /* red-100 */
         --danger-solid: 220 38 38;    /* red-600 */
         --warning: 254 243 199;       /* amber-100 */
         --warning-fg: 146 64 14;      /* amber-800 */
@@ -44,6 +45,7 @@
         --success-solid: 22 163 74;   /* green-500 */
         --danger: 127 29 29;          /* red-800 */
         --danger-fg: 252 165 165;     /* red-300 */
+        --danger-soft: 127 29 29;     /* red-800 */
         --danger-solid: 239 68 68;    /* red-500 */
         --warning: 120 53 15;         /* amber-800 */
         --warning-fg: 252 211 77;     /* amber-300 */

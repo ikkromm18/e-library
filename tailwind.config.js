@@ -37,6 +37,7 @@ export default {
                 danger: {
                     solid: 'rgb(var(--danger-solid) / <alpha-value>)',
                     fg: 'rgb(var(--danger-fg) / <alpha-value>)',
+                    soft: 'rgb(var(--danger-soft) / <alpha-value>)',
                     DEFAULT: 'rgb(var(--danger) / <alpha-value>)',
                 },
                 warning: {

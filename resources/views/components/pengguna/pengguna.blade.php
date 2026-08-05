@@ -44,7 +44,7 @@
                 </div>
                 <div class="mt-4 flex gap-2">
                     <button type="submit" class="bg-accent hover:bg-accent-hover text-accent-fg px-4 py-2 rounded-lg text-sm font-medium">Simpan</button>
-                    <button type="button" wire:click="$set('showCreate', false)" class="bg-surface-muted text-text-primary px-4 py-2 rounded-lg text-sm font-medium">Batal</button>
+                    <button type="button" wire:click="$set('showCreate', false)" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium">Batal</button>
                 </div>
             </form>
         </div>
@@ -62,7 +62,7 @@
                 </div>
                 <div class="mt-4 flex gap-2">
                     <button type="submit" class="bg-accent hover:bg-accent-hover text-accent-fg px-4 py-2 rounded-lg text-sm font-medium">Simpan Password</button>
-                    <button type="button" wire:click="cancelReset" class="bg-surface-muted text-text-primary px-4 py-2 rounded-lg text-sm font-medium">Batal</button>
+                    <button type="button" wire:click="cancelReset" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium">Batal</button>
                 </div>
             </form>
         </div>
