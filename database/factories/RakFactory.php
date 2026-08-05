@@ -14,12 +14,9 @@ class RakFactory extends Factory
 
     public function definition(): array
     {
-        $letter = $this->faker->randomElement(['A', 'B', 'C']);
-        $number = $this->faker->numberBetween(1, 10);
-
         return [
-            'kode' => $letter.'-'.str_pad((string) $number, 2, '0', STR_PAD_LEFT),
-            'nama' => 'Rak '.$letter.'-'.$number,
+            'kode' => $this->faker->unique()->regexify('[A-Z]-[0-9]{2}'),
+            'nama' => $this->faker->words(2, true),
             'keterangan' => $this->faker->optional(0.3)->sentence(),
         ];
     }

@@ -13,7 +13,7 @@
 
     {{-- Search & Filter --}}
     <div class="bg-white rounded-lg shadow p-4 mb-6">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
             <div>
                 <input type="text" wire:model.live="search" placeholder="Cari kode/ISBN/judul/pengarang..." class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
             </div>
@@ -33,6 +33,30 @@
                         <option value="{{ $r->id }}">{{ $r->kode }} - {{ $r->nama }}</option>
                     @empty
                     @endforelse
+                </select>
+            </div>
+            <div>
+                <select wire:model.live="filterPengarang" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                    <option value="">Semua Pengarang</option>
+                    @foreach (($pengarangList ?? []) as $p)
+                        <option value="{{ $p }}">{{ $p }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <select wire:model.live="filterPenerbit" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                    <option value="">Semua Penerbit</option>
+                    @foreach (($penerbitList ?? []) as $p)
+                        <option value="{{ $p }}">{{ $p }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <select wire:model.live="filterTahun" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">
+                    <option value="">Semua Tahun</option>
+                    @foreach (($tahunList ?? []) as $t)
+                        <option value="{{ $t }}">{{ $t }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>

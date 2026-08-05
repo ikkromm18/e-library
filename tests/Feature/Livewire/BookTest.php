@@ -123,6 +123,20 @@ class BookTest extends TestCase
             ->assertSee('Buku Lain');
     }
 
+    public function test_filter_pengarang(): void
+    {
+        $rak = Rak::first();
+        $kat = Kategori::first();
+        Buku::create(['kode' => 'BUK-0101', 'judul' => 'Buku Si A', 'pengarang' => 'Penulis Satu', 'kategori_id' => $kat->id, 'rak_id' => $rak->id, 'jumlah_eksemplar' => 1]);
+        Buku::create(['kode' => 'BUK-0102', 'judul' => 'Buku Si B', 'pengarang' => 'Penulis Dua', 'kategori_id' => $kat->id, 'rak_id' => $rak->id, 'jumlah_eksemplar' => 1]);
+
+        Livewire::actingAs($this->user)
+            ->test('buku')
+            ->set('filterPengarang', 'Penulis Satu')
+            ->assertSee('Buku Si A')
+            ->assertDontSee('Buku Si B');
+    }
+
     public function test_filter_kategori(): void
     {
         $kat1 = Kategori::create(['nama' => 'Agama']);

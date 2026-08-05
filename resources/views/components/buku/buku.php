@@ -4,7 +4,6 @@ use App\Models\Buku;
 use App\Models\Kategori;
 use App\Models\PeminjamanDetail;
 use App\Models\Rak;
-use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,38 +12,72 @@ new class extends Component
     use WithPagination;
 
     public $showForm = false;
+
     public $showDetail = false;
+
     public $editId = null;
+
     public $detailBuku = null;
 
     // Search & filter
     public $search = '';
+
     public $filterKategori = '';
+
     public $filterRak = '';
+
+    public $filterPengarang = '';
+
+    public $filterPenerbit = '';
+
+    public $filterTahun = '';
 
     // Form fields
     public $kode = '';
+
     public $isbn = '';
+
     public $judul = '';
+
     public $sub_judul = '';
+
     public $kategori_id = '';
+
     public $pengarang = '';
+
     public $penerbit = '';
+
     public $tahun = '';
+
     public $bahasa = '';
+
     public $rak_id = '';
+
     public $jumlah_eksemplar = 1;
+
     public $deskripsi = '';
+
     public $status = 'aktif';
+
     public $cover;
 
     public $kategoriList = [];
+
     public $rakList = [];
+
+    public $pengarangList = [];
+
+    public $penerbitList = [];
+
+    public $tahunList = [];
 
     public function mount(): void
     {
         $this->kategoriList = Kategori::orderBy('nama')->get();
         $this->rakList = Rak::orderBy('kode')->get();
+        $this->pengarangList = Buku::whereNotNull('pengarang')->distinct()->orderBy('pengarang')->pluck('pengarang');
+        $this->penerbitList = Buku::whereNotNull('penerbit')->distinct()->orderBy('penerbit')->pluck('penerbit');
+        $this->tahunList = Buku::whereNotNull('tahun')->distinct()->orderByDesc('tahun')->pluck('tahun');
     }
 
     public function updatingSearch(): void
@@ -75,6 +108,9 @@ new class extends Component
             })
             ->when($this->filterKategori, fn ($q) => $q->where('kategori_id', $this->filterKategori))
             ->when($this->filterRak, fn ($q) => $q->where('rak_id', $this->filterRak))
+            ->when($this->filterPengarang, fn ($q) => $q->where('pengarang', $this->filterPengarang))
+            ->when($this->filterPenerbit, fn ($q) => $q->where('penerbit', $this->filterPenerbit))
+            ->when($this->filterTahun, fn ($q) => $q->where('tahun', $this->filterTahun))
             ->orderBy('kode');
     }
 
@@ -108,6 +144,7 @@ new class extends Component
             $dipinjam = PeminjamanDetail::where('buku_id', $this->editId)->whereNull('tanggal_kembali')->count();
             if ($this->jumlah_eksemplar < $dipinjam) {
                 session()->flash('error', "Jumlah eksemplar tidak boleh kurang dari jumlah yang sedang dipinjam ($dipinjam).");
+
                 return;
             }
         } else {
@@ -157,6 +194,7 @@ new class extends Component
     {
         if (PeminjamanDetail::where('buku_id', $id)->exists()) {
             session()->flash('error', 'Tidak bisa hapus buku yang memiliki riwayat peminjaman.');
+
             return;
         }
 
@@ -178,6 +216,9 @@ new class extends Component
             'bukuList' => $bukuList,
             'kategoriList' => $this->kategoriList,
             'rakList' => $this->rakList,
+            'pengarangList' => $this->pengarangList,
+            'penerbitList' => $this->penerbitList,
+            'tahunList' => $this->tahunList,
         ]);
     }
 
