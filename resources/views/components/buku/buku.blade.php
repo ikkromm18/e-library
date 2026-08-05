@@ -114,7 +114,7 @@
                         @error('isbn') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-text-primary">Judul <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-text-primary">Judul <span class="text-danger-fg">*</span></label>
                         <input type="text" wire:model="judul" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent">
                         @error('judul') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
                     </div>
@@ -123,7 +123,7 @@
                         <input type="text" wire:model="sub_judul" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-text-primary">Kategori <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-text-primary">Kategori <span class="text-danger-fg">*</span></label>
                         <select wire:model="kategori_id" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent">
                             <option value="">Pilih Kategori</option>
                              @forelse (($kategoriList ?? []) as $k)
@@ -134,7 +134,7 @@
                         @error('kategori_id') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-text-primary">Rak <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-text-primary">Rak <span class="text-danger-fg">*</span></label>
                         <select wire:model="rak_id" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent">
                             <option value="">Pilih Rak</option>
                              @forelse (($rakList ?? []) as $r)
@@ -161,12 +161,12 @@
                         <input type="text" wire:model="bahasa" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-text-primary">Jumlah Eksemplar <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-text-primary">Jumlah Eksemplar <span class="text-danger-fg">*</span></label>
                         <input type="number" wire:model="jumlah_eksemplar" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent" min="1">
                         @error('jumlah_eksemplar') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-text-primary">Status <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-text-primary">Status <span class="text-danger-fg">*</span></label>
                         <select wire:model="status" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent">
                             <option value="aktif">Aktif</option>
                             <option value="tidak">Tidak Aktif</option>

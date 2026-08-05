@@ -62,17 +62,17 @@
             <form wire:submit="save">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-text-primary">NIS <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-text-primary">NIS <span class="text-danger-fg">*</span></label>
                         <input type="text" wire:model="nis" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent" {{ $editId ? 'readonly' : '' }}>
                         @error('nis') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-text-primary">Nama <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-text-primary">Nama <span class="text-danger-fg">*</span></label>
                         <input type="text" wire:model="nama" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent">
                         @error('nama') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-text-primary">Jenis Kelamin <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-text-primary">Jenis Kelamin <span class="text-danger-fg">*</span></label>
                         <select wire:model="jenis_kelamin" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent">
                             <option value="L">Laki-laki</option>
                             <option value="P">Perempuan</option>
@@ -92,12 +92,12 @@
                         <input type="text" wire:model="no_hp" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-text-primary">Tanggal Masuk <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-text-primary">Tanggal Masuk <span class="text-danger-fg">*</span></label>
                         <input type="date" wire:model="tanggal_masuk" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent">
                         @error('tanggal_masuk') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-text-primary">Status <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-text-primary">Status <span class="text-danger-fg">*</span></label>
                         <select wire:model="status" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent">
                             <option value="aktif">Aktif</option>
                             <option value="lulus">Lulus</option>
