@@ -30,7 +30,7 @@ class SettingPageTest extends TestCase
 
     public function test_upload_logo(): void
     {
-        Storage::fake('public');
+        Storage::fake('upload');
         $fake = UploadedFile::fake()->image('logo.png');
         $file = new NamedUploadedFile(
             $fake->getRealPath(),
@@ -46,6 +46,7 @@ class SettingPageTest extends TestCase
             ->call('simpan');
 
         $this->assertNotNull(Setting::get('logo'));
-        Storage::disk('public')->assertExists(Setting::get('logo'));
+        $filename = str_replace('upload/', '', Setting::get('logo'));
+        Storage::disk('upload')->assertExists($filename);
     }
 }

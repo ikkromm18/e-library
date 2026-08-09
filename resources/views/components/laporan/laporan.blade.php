@@ -44,7 +44,7 @@
         </div>
 
         <div class="flex gap-2 mb-4">
-            <a href="{{ route('laporan.export', ['tipe' => $tipe, 'format' => 'pdf', 'kategori_id' => $kategoriId, 'rak_id' => $rakId, 'status' => $statusAnggota, 'jenis' => $jenisTransaksi, 'dari' => $dariTanggal, 'sampai' => $sampaiTanggal]) }}" class="bg-danger-solid text-danger-fg px-4 py-2 rounded-lg text-sm font-medium">Export PDF</a>
+            <a href="{{ route('laporan.export', ['tipe' => $tipe, 'format' => 'pdf', 'kategori_id' => $kategoriId, 'rak_id' => $rakId, 'status' => $statusAnggota, 'jenis' => $jenisTransaksi, 'dari' => $dariTanggal, 'sampai' => $sampaiTanggal]) }}" class="bg-danger-solid px-4 py-2 rounded-lg text-sm text-white font-medium">Export PDF</a>
             <a href="{{ route('laporan.export', ['tipe' => $tipe, 'format' => 'excel', 'kategori_id' => $kategoriId, 'rak_id' => $rakId, 'status' => $statusAnggota, 'jenis' => $jenisTransaksi, 'dari' => $dariTanggal, 'sampai' => $sampaiTanggal]) }}" class="bg-accent text-accent-fg px-4 py-2 rounded-lg text-sm font-medium">Export Excel</a>
         </div>
 

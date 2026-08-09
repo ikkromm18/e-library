@@ -40,7 +40,8 @@ new class extends Component
         Setting::set('maksimal_buku', $this->maksimalBuku);
 
         if ($this->logo) {
-            $path = $this->logo->store('logos', 'public');
+            $filename = $this->logo->store('', 'upload');
+            $path = 'upload/'.$filename;
             Setting::set('logo', $path);
             $this->logoPath = $path;
             $this->logo = null;
