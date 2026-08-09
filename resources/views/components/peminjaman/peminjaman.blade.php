@@ -1,4 +1,4 @@
-<div>
+<div wire:preserveScroll>
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-text-primary">Peminjaman Buku</h1>
     </div>
@@ -65,6 +65,7 @@
             <table class="min-w-full divide-y divide-border mb-4">
                 <thead class="bg-surface-muted">
                     <tr>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-text-secondary uppercase">No</th>
                         <th class="px-4 py-2 text-left text-xs font-medium text-text-secondary uppercase">Kode</th>
                         <th class="px-4 py-2 text-left text-xs font-medium text-text-secondary uppercase">Judul</th>
                         <th class="px-4 py-2"></th>
@@ -73,6 +74,7 @@
                 <tbody class="divide-y divide-border">
                     @foreach ($cart as $index => $item)
                         <tr>
+                            <td class="px-4 py-2 text-sm text-text-secondary">{{ $index + 1 }}</td>
                             <td class="px-4 py-2 text-sm font-mono text-text-primary">{{ $item['kode'] }}</td>
                             <td class="px-4 py-2 text-sm text-text-primary">{{ $item['judul'] }}</td>
                             <td class="px-4 py-2 text-right">

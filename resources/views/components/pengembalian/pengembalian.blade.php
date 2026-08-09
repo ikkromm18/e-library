@@ -1,4 +1,4 @@
-<div>
+<div wire:preserveScroll>
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-text-primary">Pengembalian Buku</h1>
     </div>
@@ -25,6 +25,7 @@
             <table class="min-w-full divide-y divide-border">
                 <thead class="bg-surface-muted">
                     <tr>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-text-secondary uppercase">No</th>
                         <th class="px-4 py-2 text-left text-xs font-medium text-text-secondary uppercase">Buku</th>
                         <th class="px-4 py-2 text-left text-xs font-medium text-text-secondary uppercase">Status</th>
                         <th class="px-4 py-2"></th>
@@ -33,6 +34,7 @@
                 <tbody class="divide-y divide-border">
                     @foreach ($details as $detail)
                         <tr>
+                            <td class="px-4 py-2 text-sm text-text-secondary">{{ $loop->iteration }}</td>
                             <td class="px-4 py-2 text-sm text-text-primary">{{ $detail->buku->judul }}</td>
                             <td class="px-4 py-2 text-sm">
                                 @if ($detail->tanggal_kembali)

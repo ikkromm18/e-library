@@ -24,11 +24,16 @@
             })();
         </script>
     </head>
+    @php $appLogo = \App\Models\Setting::get('logo'); @endphp
     <body class="font-sans text-text-primary antialiased theme-transition">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-body">
             <div>
                 <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-text-secondary" />
+                    @if ($appLogo)
+                        <img src="{{ asset('storage/'.$appLogo) }}" class="w-20 h-20 object-contain" alt="Logo">
+                    @else
+                        <x-application-logo class="w-20 h-20 fill-current text-text-secondary" />
+                    @endif
                 </a>
             </div>
 

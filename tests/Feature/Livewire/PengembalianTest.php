@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Livewire;
 
-use App\Models\Anggota;
 use App\Models\Buku;
 use App\Models\Peminjaman;
 use App\Models\PeminjamanDetail;

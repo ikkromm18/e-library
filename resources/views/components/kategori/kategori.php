@@ -3,24 +3,24 @@
 use App\Models\Kategori;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 new class extends Component
 {
-    public $kategoriList;
+    use WithPagination;
+
+    public int $perPage = 10;
+
     public $showForm = false;
+
     public $editId = null;
 
     #[Rule('required')]
     public $nama = '';
 
-    public function mount(): void
+    public function updatedPerPage(): void
     {
-        $this->loadData();
-    }
-
-    public function loadData(): void
-    {
-        $this->kategoriList = Kategori::withCount('bukus')->orderBy('nama')->get();
+        $this->resetPage();
     }
 
     public function create(): void
@@ -50,7 +50,6 @@ new class extends Component
         }
 
         $this->showForm = false;
-        $this->loadData();
     }
 
     public function delete($id): void
@@ -59,11 +58,11 @@ new class extends Component
 
         if ($kategori->bukus()->count() > 0) {
             session()->flash('error', 'Tidak bisa hapus kategori yang masih memiliki buku.');
+
             return;
         }
 
         $kategori->delete();
-        $this->loadData();
         session()->flash('success', 'Kategori berhasil dihapus.');
     }
 
@@ -75,7 +74,9 @@ new class extends Component
 
     public function render()
     {
-        return view('components.kategori.kategori');
+        $kategoriList = Kategori::withCount('bukus')->orderBy('nama')->paginate($this->perPage);
+
+        return view('components.kategori.kategori', compact('kategoriList'));
     }
 
     private function resetForm(): void

@@ -21,13 +21,15 @@ class PeminjamanServiceTest extends TestCase
     use RefreshDatabase;
 
     private PeminjamanService $service;
+
     private User $petugas;
+
     private Anggota $anggota;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new PeminjamanService();
+        $this->service = new PeminjamanService;
         $this->petugas = User::factory()->petugas()->create();
         $this->anggota = Anggota::factory()->create();
     }

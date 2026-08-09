@@ -1,6 +1,6 @@
 <?php
 
-use App\Imports\AnggotaImport;
+use App\Imports\BukuImport;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -17,8 +17,6 @@ new class extends Component
 
     public $importResult = null;
 
-    public function mount(): void {}
-
     public function updatedFile(): void
     {
         $this->showPreview = false;
@@ -29,7 +27,7 @@ new class extends Component
     {
         $this->validateOnly('file');
 
-        $import = new AnggotaImport;
+        $import = new BukuImport;
         DB::beginTransaction();
         try {
             $import->import($this->file);
@@ -52,7 +50,7 @@ new class extends Component
     {
         $this->validateOnly('file');
 
-        $import = new AnggotaImport;
+        $import = new BukuImport;
         $import->import($this->file);
 
         $this->importResult = [
@@ -69,6 +67,6 @@ new class extends Component
 
     public function render()
     {
-        return view('components.anggota.member-import.member-import');
+        return view('components.buku.buku-import.buku-import');
     }
 };

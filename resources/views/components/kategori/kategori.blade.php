@@ -1,4 +1,4 @@
-<div>
+<div wire:preserveScroll>
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-text-primary">Kategori Buku</h1>
         <button wire:click="create" class="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg text-sm font-medium">
@@ -43,7 +43,7 @@
             <tbody class="bg-surface divide-y divide-border">
                 @forelse ($kategoriList as $item)
                     <tr>
-                        <td class="px-6 py-4 text-sm text-text-primary">{{ $loop->iteration }}</td>
+                        <td class="px-6 py-4 text-sm text-text-primary">{{ $kategoriList->firstItem() + $loop->index }}</td>
                         <td class="px-6 py-4 text-sm font-medium text-text-primary">{{ $item->nama }}</td>
                         <td class="px-6 py-4 text-sm text-text-secondary">{{ $item->bukus_count }}</td>
                         <td class="px-6 py-4 text-sm space-x-2">
@@ -58,5 +58,13 @@
                 @endforelse
             </tbody>
         </table>
+        <div class="px-6 py-3 border-t border-border flex items-center justify-between">
+            <select wire:model.live="perPage" class="rounded-md border-border shadow-sm text-sm">
+                @foreach ([10, 25, 50, 100] as $n)
+                    <option value="{{ $n }}">{{ $n }}</option>
+                @endforeach
+            </select>
+            {{ $kategoriList->links() }}
+        </div>
     </div>
 </div>

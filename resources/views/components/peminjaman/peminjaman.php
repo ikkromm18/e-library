@@ -13,11 +13,17 @@ use Livewire\Component;
 new class extends Component
 {
     public $searchAnggota = '';
+
     public $hasilAnggota = [];
+
     public $anggotaDipilih = null;
+
     public $searchBuku = '';
+
     public $hasilBuku = [];
+
     public $cart = [];
+
     public $maksimalBuku = 3;
 
     public function mount(): void
@@ -43,16 +49,19 @@ new class extends Component
 
         if (collect($this->cart)->contains('id', $id)) {
             session()->flash('error', 'Buku sudah ada di daftar.');
+
             return;
         }
 
         if (count($this->cart) >= $this->maksimalBuku) {
             session()->flash('error', "Maksimal {$this->maksimalBuku} buku per peminjaman.");
+
             return;
         }
 
         if ($buku->stokTersedia() < 1) {
             session()->flash('error', "Stok buku \"{$buku->judul}\" habis.");
+
             return;
         }
 
@@ -69,11 +78,13 @@ new class extends Component
     {
         if (! $this->anggotaDipilih) {
             session()->flash('error', 'Pilih anggota dulu.');
+
             return;
         }
 
         if (count($this->cart) === 0) {
             session()->flash('error', 'Pilih minimal satu buku.');
+
             return;
         }
 

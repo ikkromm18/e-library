@@ -1,7 +1,10 @@
-<div>
+<div wire:preserveScroll>
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-text-primary">Master Anggota</h1>
-        <button wire:click="create" class="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg text-sm font-medium">Tambah Anggota</button>
+        <div class="flex gap-2">
+            <a href="{{ route('anggota.import') }}" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium">Import Excel</a>
+            <button wire:click="create" class="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg text-sm font-medium">Tambah Anggota</button>
+        </div>
     </div>
 
     @if (session()->has('success'))
@@ -26,6 +29,14 @@
                     <option value="nonaktif">Nonaktif</option>
                 </select>
             </div>
+        </div>
+        <div class="mt-3 flex items-center justify-end gap-2">
+            <span class="text-sm text-text-secondary">Baris per halaman:</span>
+            <select wire:model.live="perPage" class="rounded-md border-border shadow-sm text-sm">
+                @foreach ([10, 25, 50, 100] as $n)
+                    <option value="{{ $n }}">{{ $n }}</option>
+                @endforeach
+            </select>
         </div>
     </div>
 
@@ -120,6 +131,7 @@
         <table class="min-w-full divide-y divide-border">
             <thead class="bg-surface-muted">
                 <tr>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-text-secondary uppercase">No</th>
                     <th class="px-4 py-3 text-left text-xs font-medium text-text-secondary uppercase">NIS</th>
                     <th class="px-4 py-3 text-left text-xs font-medium text-text-secondary uppercase">Nama</th>
                     <th class="px-4 py-3 text-left text-xs font-medium text-text-secondary uppercase">JK</th>
@@ -131,6 +143,7 @@
             <tbody class="divide-y divide-border">
                  @forelse (($anggotaList ?? []) as $item)
                     <tr>
+                        <td class="px-4 py-3 text-sm text-text-secondary">{{ $anggotaList->firstItem() + $loop->index }}</td>
                         <td class="px-4 py-3 text-sm font-mono">{{ $item->nis }}</td>
                         <td class="px-4 py-3 text-sm font-medium text-text-primary">{{ $item->nama }}</td>
                         <td class="px-4 py-3 text-sm text-text-secondary">{{ $item->jenis_kelamin }}</td>
@@ -147,7 +160,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="6" class="px-4 py-4 text-center text-sm text-text-secondary">Tidak ada anggota ditemukan.</td></tr>
+                    <tr><td colspan="7" class="px-4 py-4 text-center text-sm text-text-secondary">Tidak ada anggota ditemukan.</td></tr>
                 @endforelse
             </tbody>
         </table>

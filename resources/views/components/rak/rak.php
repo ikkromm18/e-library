@@ -3,11 +3,16 @@
 use App\Models\Rak;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 new class extends Component
 {
-    public $rakList;
+    use WithPagination;
+
+    public int $perPage = 10;
+
     public $showForm = false;
+
     public $editId = null;
 
     #[Rule('required')]
@@ -18,14 +23,9 @@ new class extends Component
 
     public $keterangan = '';
 
-    public function mount(): void
+    public function updatedPerPage(): void
     {
-        $this->loadData();
-    }
-
-    public function loadData(): void
-    {
-        $this->rakList = Rak::withCount('bukus')->orderBy('kode')->get();
+        $this->resetPage();
     }
 
     public function create(): void
@@ -68,7 +68,6 @@ new class extends Component
         }
 
         $this->showForm = false;
-        $this->loadData();
     }
 
     public function delete($id): void
@@ -77,11 +76,11 @@ new class extends Component
 
         if ($rak->bukus()->count() > 0) {
             session()->flash('error', 'Tidak bisa hapus rak yang masih memiliki buku.');
+
             return;
         }
 
         $rak->delete();
-        $this->loadData();
         session()->flash('success', 'Rak berhasil dihapus.');
     }
 
@@ -93,7 +92,9 @@ new class extends Component
 
     public function render()
     {
-        return view('components.rak.rak');
+        $rakList = Rak::withCount('bukus')->orderBy('kode')->paginate($this->perPage);
+
+        return view('components.rak.rak', compact('rakList'));
     }
 
     private function resetForm(): void

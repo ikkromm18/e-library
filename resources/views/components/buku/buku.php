@@ -5,11 +5,14 @@ use App\Models\Kategori;
 use App\Models\PeminjamanDetail;
 use App\Models\Rak;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 new class extends Component
 {
-    use WithPagination;
+    use WithFileUploads, WithPagination;
+
+    public int $perPage = 10;
 
     public $showForm = false;
 
@@ -61,6 +64,8 @@ new class extends Component
 
     public $cover;
 
+    public $coverPath = null;
+
     public $kategoriList = [];
 
     public $rakList = [];
@@ -95,9 +100,14 @@ new class extends Component
         $this->resetPage();
     }
 
+    public function updatedPerPage(): void
+    {
+        $this->resetPage();
+    }
+
     public function queryBuku()
     {
-        return Buku::with(['kategori', 'rak'])
+        return Buku::with(['kategori', 'rak'])->withCount(['detailsAktif as stok_dipakai'])
             ->when($this->search, function ($q) {
                 $q->where(function ($q2) {
                     $q2->where('kode', 'like', "%{$this->search}%")
@@ -126,6 +136,7 @@ new class extends Component
         $buku = Buku::findOrFail($id);
         $this->editId = $id;
         $this->fillFromModel($buku);
+        $this->coverPath = $buku->cover;
         $this->showForm = true;
     }
 
@@ -137,6 +148,7 @@ new class extends Component
             'rak_id' => 'required|exists:raks,id',
             'jumlah_eksemplar' => 'required|integer|min:1',
             'status' => 'required|in:aktif,tidak',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:1024',
         ];
 
         if ($this->editId) {
@@ -210,7 +222,7 @@ new class extends Component
 
     public function render()
     {
-        $bukuList = $this->queryBuku()->paginate(10);
+        $bukuList = $this->queryBuku()->paginate($this->perPage);
 
         return view('components.buku.buku', [
             'bukuList' => $bukuList,
@@ -257,5 +269,6 @@ new class extends Component
         $this->deskripsi = '';
         $this->status = 'aktif';
         $this->cover = null;
+        $this->coverPath = null;
     }
 };

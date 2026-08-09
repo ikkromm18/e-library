@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Livewire\Livewire;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Storage;
 use Tests\TestCase;
 
@@ -40,7 +42,8 @@ class MemberImportTest extends TestCase
         $this->assertDatabaseHas('anggota', ['nis' => '20240002']);
     }
 
-    public function test_nis_duplikat_dilewati(): void    {
+    public function test_nis_duplikat_dilewati(): void
+    {
         Anggota::create([
             'nis' => '20240001', 'nama' => 'Sudah Ada', 'jenis_kelamin' => 'L',
             'tanggal_masuk' => '2024-07-01', 'status' => 'aktif',
@@ -89,7 +92,7 @@ class MemberImportTest extends TestCase
 
     private function createExcelFile(array $rows): UploadedFile
     {
-        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
 
         $headers = ['nis', 'nama', 'jenis_kelamin', 'kelas', 'alamat', 'no_hp', 'tanggal_masuk', 'status'];
@@ -106,7 +109,7 @@ class MemberImportTest extends TestCase
         }
 
         $tempFile = tempnam(sys_get_temp_dir(), 'import_');
-        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $writer = new Xlsx($spreadsheet);
         $writer->save($tempFile);
 
         return new NamedUploadedFile($tempFile, 'import.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', null, true);

@@ -8,28 +8,39 @@ new class extends Component
 {
     use WithPagination;
 
+    public int $perPage = 10;
+
     public $showForm = false;
+
     public $showDetail = false;
+
     public $editId = null;
+
     public $detailAnggota = null;
 
     // Search & filter
     public $search = '';
+
     public $filterStatus = '';
 
     // Form fields
     public $nis = '';
+
     public $nama = '';
+
     public $jenis_kelamin = 'L';
+
     public $kelas = '';
+
     public $alamat = '';
+
     public $no_hp = '';
+
     public $tanggal_masuk = '';
+
     public $status = 'aktif';
 
-    public function mount(): void
-    {
-    }
+    public function mount(): void {}
 
     public function updatingSearch(): void
     {
@@ -37,6 +48,11 @@ new class extends Component
     }
 
     public function updatingFilterStatus(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedPerPage(): void
     {
         $this->resetPage();
     }
@@ -79,7 +95,7 @@ new class extends Component
     public function save(): void
     {
         $rules = [
-            'nis' => 'required|string|unique:anggota,nis' . ($this->editId ? ',' . $this->editId : ''),
+            'nis' => 'required|string|unique:anggota,nis'.($this->editId ? ','.$this->editId : ''),
             'nama' => 'required|string|max:255',
             'jenis_kelamin' => 'required|in:L,P',
             'kelas' => 'nullable|string|max:10',
@@ -125,6 +141,7 @@ new class extends Component
 
         if ($anggota->peminjamen()->exists()) {
             session()->flash('error', 'Tidak bisa hapus anggota yang memiliki riwayat peminjaman.');
+
             return;
         }
 
@@ -141,7 +158,7 @@ new class extends Component
     public function render()
     {
         return view('components.anggota.anggota', [
-            'anggotaList' => $this->queryAnggota()->paginate(10),
+            'anggotaList' => $this->queryAnggota()->paginate($this->perPage),
         ]);
     }
 

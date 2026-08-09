@@ -4,10 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Anggota;
 use App\Models\Buku;
-use App\Models\Kategori;
 use App\Models\Peminjaman;
 use App\Models\PeminjamanDetail;
-use App\Models\Rak;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -17,10 +17,13 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-text-primary">Logo</label>
-                    @if ($logoPath)
+                    @if ($logo)
+                        <img src="{{ $logo->temporaryUrl() }}" class="h-16 mb-2" alt="Preview logo">
+                    @elseif ($logoPath)
                         <img src="{{ asset('storage/'.$logoPath) }}" class="h-16 mb-2" alt="Logo">
                     @endif
                     <input type="file" wire:model="logo" class="mt-1 block w-full text-sm text-text-secondary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-accent-soft file:text-accent-fg hover:file:bg-accent-soft">
+                    @error('logo') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>

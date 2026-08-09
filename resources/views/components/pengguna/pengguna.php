@@ -3,12 +3,18 @@
 use App\Models\User;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 new class extends Component
 {
-    public $users;
+    use WithPagination;
+
+    public int $perPage = 10;
+
     public $showCreate = false;
+
     public $editingId = null;
+
     public $resetPasswordId = null;
 
     #[Rule('required')]
@@ -25,14 +31,9 @@ new class extends Component
 
     public $newPassword = '';
 
-    public function mount(): void
+    public function updatedPerPage(): void
     {
-        $this->loadUsers();
-    }
-
-    public function loadUsers(): void
-    {
-        $this->users = User::orderBy('role')->orderBy('name')->get();
+        $this->resetPage();
     }
 
     public function create(): void
@@ -54,7 +55,6 @@ new class extends Component
         ]);
 
         $this->showCreate = false;
-        $this->loadUsers();
         session()->flash('success', 'Pengguna berhasil dibuat.');
     }
 
@@ -62,14 +62,12 @@ new class extends Component
     {
         $user = User::findOrFail($userId);
         $user->update(['role' => $role]);
-        $this->loadUsers();
     }
 
     public function toggleActive($userId): void
     {
         $user = User::findOrFail($userId);
         $user->update(['is_active' => ! $user->is_active]);
-        $this->loadUsers();
     }
 
     public function resetPassword($userId): void
@@ -98,7 +96,9 @@ new class extends Component
 
     public function render()
     {
-        return view('components.pengguna.pengguna');
+        $users = User::orderBy('role')->orderBy('name')->paginate($this->perPage);
+
+        return view('components.pengguna.pengguna', compact('users'));
     }
 
     private function resetCreateForm(): void

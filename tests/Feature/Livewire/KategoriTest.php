@@ -16,7 +16,7 @@ class KategoriTest extends TestCase
     public function test_buat_kategori(): void
     {
         Livewire::actingAs(User::factory()->petugas()->create())
-            ->test(\Livewire\Livewire::new('kategori'))
+            ->test(Livewire::new('kategori'))
             ->call('create')
             ->set('nama', 'Novel')
             ->call('save')
@@ -30,7 +30,7 @@ class KategoriTest extends TestCase
         $kategori = Kategori::create(['nama' => 'Lama']);
 
         Livewire::actingAs(User::factory()->petugas()->create())
-            ->test(\Livewire\Livewire::new('kategori'))
+            ->test(Livewire::new('kategori'))
             ->call('edit', $kategori->id)
             ->set('nama', 'Baru')
             ->call('save');
@@ -45,7 +45,7 @@ class KategoriTest extends TestCase
         Buku::factory()->create(['kategori_id' => $kategori->id]);
 
         Livewire::actingAs(User::factory()->petugas()->create())
-            ->test(\Livewire\Livewire::new('kategori'))
+            ->test(Livewire::new('kategori'))
             ->call('delete', $kategori->id);
 
         $this->assertDatabaseHas('kategoris', ['id' => $kategori->id]);
@@ -56,7 +56,7 @@ class KategoriTest extends TestCase
         $kategori = Kategori::create(['nama' => 'Kosong']);
 
         Livewire::actingAs(User::factory()->petugas()->create())
-            ->test(\Livewire\Livewire::new('kategori'))
+            ->test(Livewire::new('kategori'))
             ->call('delete', $kategori->id);
 
         $this->assertDatabaseMissing('kategoris', ['id' => $kategori->id]);
@@ -65,7 +65,7 @@ class KategoriTest extends TestCase
     public function test_nama_wajib(): void
     {
         Livewire::actingAs(User::factory()->petugas()->create())
-            ->test(\Livewire\Livewire::new('kategori'))
+            ->test(Livewire::new('kategori'))
             ->call('create')
             ->set('nama', '')
             ->call('save')

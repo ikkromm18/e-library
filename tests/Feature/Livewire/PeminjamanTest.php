@@ -4,8 +4,6 @@ namespace Tests\Feature\Livewire;
 
 use App\Models\Anggota;
 use App\Models\Buku;
-use App\Models\Kategori;
-use App\Models\Rak;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -16,6 +14,7 @@ class PeminjamanTest extends TestCase
     use RefreshDatabase;
 
     private User $user;
+
     private Anggota $anggota;
 
     protected function setUp(): void

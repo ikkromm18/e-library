@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -37,7 +38,7 @@ class Peminjaman extends Model
         return $this->hasMany(PeminjamanDetail::class);
     }
 
-    public function hitungKeterlambatan(?\Carbon\Carbon $dikembalikan = null): int
+    public function hitungKeterlambatan(?Carbon $dikembalikan = null): int
     {
         $end = $dikembalikan ?? now()->startOfDay();
 

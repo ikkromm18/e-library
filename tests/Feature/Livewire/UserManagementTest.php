@@ -29,7 +29,7 @@ class UserManagementTest extends TestCase
     public function test_admin_buat_petugas(): void
     {
         Livewire::actingAs($this->admin)
-            ->test(\Livewire\Livewire::new('pengguna'))
+            ->test(Livewire::new('pengguna'))
             ->call('create')
             ->set('name', 'Petugas Baru')
             ->set('email', 'petugas@example.com')
@@ -49,7 +49,7 @@ class UserManagementTest extends TestCase
         $user = User::factory()->petugas()->create(['is_active' => true]);
 
         Livewire::actingAs($this->admin)
-            ->test(\Livewire\Livewire::new('pengguna'))
+            ->test(Livewire::new('pengguna'))
             ->call('toggleActive', $user->id);
 
         $user->refresh();
@@ -61,7 +61,7 @@ class UserManagementTest extends TestCase
         $user = User::factory()->petugas()->create();
 
         Livewire::actingAs($this->admin)
-            ->test(\Livewire\Livewire::new('pengguna'))
+            ->test(Livewire::new('pengguna'))
             ->call('resetPassword', $user->id)
             ->set('newPassword', 'newpassword123')
             ->call('savePassword')

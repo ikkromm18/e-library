@@ -7,8 +7,11 @@ use Livewire\Component;
 new class extends Component
 {
     public $search = '';
+
     public $hasilTransaksi = [];
+
     public $peminjaman = null;
+
     public $details = [];
 
     public function pilih($id): void

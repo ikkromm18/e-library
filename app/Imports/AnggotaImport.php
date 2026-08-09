@@ -9,12 +9,14 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Validators\Failure;
 
-class AnggotaImport implements ToModel, WithHeadingRow, SkipsOnFailure
+class AnggotaImport implements SkipsOnFailure, ToModel, WithHeadingRow
 {
     use Importable;
 
     public int $imported = 0;
+
     public int $skipped = 0;
+
     public array $errors = [];
 
     public function model(array $row): ?Anggota
@@ -23,6 +25,7 @@ class AnggotaImport implements ToModel, WithHeadingRow, SkipsOnFailure
 
         if (Anggota::where('nis', $nis)->exists()) {
             $this->skipped++;
+
             return null;
         }
 

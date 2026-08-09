@@ -32,6 +32,7 @@ new class extends Component
             'namaPerpus' => 'required|string|max:255',
             'lamaPinjam' => 'required|integer|min:1|max:365',
             'maksimalBuku' => 'required|integer|min:1|max:20',
+            'logo' => 'nullable|mimes:jpeg,png,jpg,gif,webp,svg|max:1024',
         ]);
 
         Setting::set('nama_perpus', $this->namaPerpus);

@@ -1,4 +1,4 @@
-<div>
+<div wire:preserveScroll>
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-text-primary">Pengguna</h1>
         <button wire:click="create" class="bg-accent hover:bg-accent-hover text-accent-fg px-4 py-2 rounded-lg text-sm font-medium">
@@ -73,6 +73,7 @@
         <table class="min-w-full divide-y divide-border">
             <thead class="bg-surface-muted">
                 <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">No</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Nama</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Email</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Role</th>
@@ -83,6 +84,7 @@
             <tbody class="bg-surface divide-y divide-border">
                 @forelse ($users as $user)
                     <tr>
+                        <td class="px-6 py-4 text-sm text-text-secondary">{{ $users->firstItem() + $loop->index }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-primary">{{ $user->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">{{ $user->email }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
@@ -102,10 +104,18 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-4 text-center text-sm text-text-secondary">Belum ada pengguna.</td>
+                        <td colspan="6" class="px-6 py-4 text-center text-sm text-text-secondary">Belum ada pengguna.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
+        <div class="px-6 py-3 border-t border-border flex items-center justify-between">
+            <select wire:model.live="perPage" class="rounded-md border-border shadow-sm text-sm">
+                @foreach ([10, 25, 50, 100] as $n)
+                    <option value="{{ $n }}">{{ $n }}</option>
+                @endforeach
+            </select>
+            {{ $users->links() }}
+        </div>
     </div>
 </div>

@@ -16,7 +16,7 @@ class RakTest extends TestCase
     public function test_buat_rak(): void
     {
         Livewire::actingAs(User::factory()->petugas()->create())
-            ->test(\Livewire\Livewire::new('rak'))
+            ->test(Livewire::new('rak'))
             ->call('create')
             ->set('kode', 'A-01')
             ->set('nama', 'Rak A')
@@ -31,7 +31,7 @@ class RakTest extends TestCase
         Rak::create(['kode' => 'A-01', 'nama' => 'Rak A']);
 
         Livewire::actingAs(User::factory()->petugas()->create())
-            ->test(\Livewire\Livewire::new('rak'))
+            ->test(Livewire::new('rak'))
             ->call('create')
             ->set('kode', 'A-01')
             ->set('nama', 'Rak B')
@@ -45,7 +45,7 @@ class RakTest extends TestCase
         Buku::factory()->create(['rak_id' => $rak->id]);
 
         Livewire::actingAs(User::factory()->petugas()->create())
-            ->test(\Livewire\Livewire::new('rak'))
+            ->test(Livewire::new('rak'))
             ->call('delete', $rak->id);
 
         $this->assertDatabaseHas('raks', ['id' => $rak->id]);
