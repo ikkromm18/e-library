@@ -2,6 +2,7 @@
 
 use App\Exports\AnggotaTemplateExport;
 use App\Exports\BukuTemplateExport;
+use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/anggota/import', fn () => view('anggota.import'))->name('anggota.import');
     Route::get('/anggota/import/template', fn () => Excel::download(new AnggotaTemplateExport, 'template_anggota.xlsx'))->name('anggota.import.template');
     Route::get('/peminjaman', fn () => view('peminjaman.index'))->name('peminjaman.index');
+    Route::get('/peminjaman/{peminjaman}/print', [PeminjamanController::class, 'print'])->name('peminjaman.print');
     Route::get('/peminjaman/per-siswa', fn () => view('peminjaman.per-siswa'))->name('peminjaman.per-siswa');
     Route::get('/pengembalian', fn () => view('pengembalian.index'))->name('pengembalian.index');
     Route::get('/laporan', fn () => view('laporan.index'))->name('laporan.index');

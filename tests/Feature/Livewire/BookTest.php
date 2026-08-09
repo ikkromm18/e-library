@@ -207,4 +207,30 @@ class BookTest extends TestCase
 
         $this->assertDatabaseHas('bukus', ['id' => $buku->id, 'jumlah_eksemplar' => 3]);
     }
+
+    public function test_buat_beberapa_buku_tanpa_isbn(): void
+    {
+        Livewire::actingAs($this->user)
+            ->test('buku')
+            ->call('create')
+            ->set('judul', 'Buku Pertama Tanpa ISBN')
+            ->set('isbn', '')
+            ->set('kategori_id', Kategori::first()->id)
+            ->set('rak_id', Rak::first()->id)
+            ->call('save')
+            ->assertHasNoErrors();
+
+        Livewire::actingAs($this->user)
+            ->test('buku')
+            ->call('create')
+            ->set('judul', 'Buku Kedua Tanpa ISBN')
+            ->set('isbn', '')
+            ->set('kategori_id', Kategori::first()->id)
+            ->set('rak_id', Rak::first()->id)
+            ->call('save')
+            ->assertHasNoErrors();
+
+        $this->assertDatabaseHas('bukus', ['judul' => 'Buku Pertama Tanpa ISBN', 'isbn' => null]);
+        $this->assertDatabaseHas('bukus', ['judul' => 'Buku Kedua Tanpa ISBN', 'isbn' => null]);
+    }
 }

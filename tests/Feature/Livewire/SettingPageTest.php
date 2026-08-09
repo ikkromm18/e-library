@@ -21,11 +21,15 @@ class SettingPageTest extends TestCase
             ->set('namaPerpus', 'Perpustakaan SMP Nusantara')
             ->set('lamaPinjam', 14)
             ->set('maksimalBuku', 5)
+            ->set('namaPetugas', 'Ahmad Petugas')
+            ->set('jabatanPetugas', 'Kepala Perpus')
             ->call('simpan');
 
         $this->assertEquals('Perpustakaan SMP Nusantara', Setting::get('nama_perpus'));
         $this->assertEquals('14', Setting::get('lama_pinjam'));
         $this->assertEquals('5', Setting::get('maksimal_buku'));
+        $this->assertEquals('Ahmad Petugas', Setting::get('ttd_nama_petugas'));
+        $this->assertEquals('Kepala Perpus', Setting::get('ttd_jabatan_petugas'));
     }
 
     public function test_upload_logo(): void

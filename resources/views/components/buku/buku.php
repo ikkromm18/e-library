@@ -166,17 +166,17 @@ new class extends Component
         $this->validate($rules);
 
         $data = [
-            'isbn' => $this->isbn,
+            'isbn' => $this->isbn ?: null,
             'judul' => $this->judul,
-            'sub_judul' => $this->sub_judul,
+            'sub_judul' => $this->sub_judul ?: null,
             'kategori_id' => $this->kategori_id,
-            'pengarang' => $this->pengarang,
-            'penerbit' => $this->penerbit,
+            'pengarang' => $this->pengarang ?: null,
+            'penerbit' => $this->penerbit ?: null,
             'tahun' => $this->tahun ?: null,
-            'bahasa' => $this->bahasa,
+            'bahasa' => $this->bahasa ?: null,
             'rak_id' => $this->rak_id,
             'jumlah_eksemplar' => $this->jumlah_eksemplar,
-            'deskripsi' => $this->deskripsi,
+            'deskripsi' => $this->deskripsi ?: null,
             'status' => $this->status,
         ];
 

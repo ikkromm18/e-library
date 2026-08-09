@@ -1,7 +1,7 @@
 <div wire:preserveScroll>
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-text-primary">Kategori Buku</h1>
-        <button wire:click="create" class="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg text-sm font-medium">
+        <button wire:click="create" wire:loading.attr="disabled" class="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">
             Tambah Kategori
         </button>
     </div>
@@ -23,8 +23,8 @@
                     @error('nama') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
                 </div>
                 <div class="mt-4 flex gap-2">
-                    <button type="submit" class="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg text-sm font-medium">Simpan</button>
-                    <button type="button" wire:click="cancel" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium">Batal</button>
+                    <button type="submit" wire:loading.attr="disabled" class="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">Simpan</button>
+                    <button type="button" wire:click="cancel" wire:loading.attr="disabled" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">Batal</button>
                 </div>
             </form>
         </div>
@@ -47,9 +47,9 @@
                         <td class="px-6 py-4 text-sm font-medium text-text-primary">{{ $item->nama }}</td>
                         <td class="px-6 py-4 text-sm text-text-secondary">{{ $item->bukus_count }}</td>
                         <td class="px-6 py-4 text-sm space-x-2">
-                            <button wire:click="edit({{ $item->id }})" class="text-accent hover:text-accent-hover">Edit</button>
+                            <button wire:click="edit({{ $item->id }})" wire:loading.attr="disabled" class="text-accent hover:text-accent-hover disabled:opacity-50">Edit</button>
                             @if ($item->bukus_count === 0)
-                                <button wire:click="delete({{ $item->id }})" wire:confirm="Yakin hapus kategori ini?" class="text-danger-fg hover:text-danger-fg">Hapus</button>
+                                <button wire:click="delete({{ $item->id }})" wire:loading.attr="disabled" wire:confirm="Yakin hapus kategori ini?" class="text-danger-fg hover:text-danger-fg disabled:opacity-50">Hapus</button>
                             @endif
                         </td>
                     </tr>

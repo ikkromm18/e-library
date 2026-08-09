@@ -4,6 +4,8 @@ namespace Tests\Feature\Livewire;
 
 use App\Models\Anggota;
 use App\Models\Buku;
+use App\Models\Peminjaman;
+use App\Models\PeminjamanDetail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -41,6 +43,30 @@ class PeminjamanTest extends TestCase
 
         $this->assertDatabaseHas('peminjamen', ['anggota_id' => $this->anggota->id, 'status' => 'dipinjam']);
         $this->assertEquals(1, $buku->fresh()->stokTersedia());
+    }
+
+    public function test_cetak_bukti_peminjaman_route(): void
+    {
+        $buku = Buku::factory()->create();
+        $peminjaman = Peminjaman::create([
+            'no_transaksi' => 'PJM-TEST-001',
+            'tanggal' => today(),
+            'tanggal_jatuh_tempo' => today()->addDays(7),
+            'petugas_id' => $this->user->id,
+            'anggota_id' => $this->anggota->id,
+            'status' => 'dipinjam',
+        ]);
+        PeminjamanDetail::create([
+            'peminjaman_id' => $peminjaman->id,
+            'buku_id' => $buku->id,
+        ]);
+
+        $response = $this->actingAs($this->user)->get(route('peminjaman.print', $peminjaman->id));
+
+        $response->assertStatus(200)
+            ->assertSee('PJM-TEST-001')
+            ->assertSee($this->anggota->nama)
+            ->assertSee($buku->judul);
     }
 
     public function test_cart_cegah_duplikat_buku(): void

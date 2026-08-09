@@ -1,7 +1,7 @@
 <div wire:preserveScroll>
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-text-primary">Pengguna</h1>
-        <button wire:click="create" class="bg-accent hover:bg-accent-hover text-accent-fg px-4 py-2 rounded-lg text-sm font-medium">
+        <button wire:click="create" wire:loading.attr="disabled" class="bg-accent hover:bg-accent-hover text-accent-fg px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">
             Tambah Pengguna
         </button>
     </div>
@@ -43,8 +43,8 @@
                     </div>
                 </div>
                 <div class="mt-4 flex gap-2">
-                    <button type="submit" class="bg-accent hover:bg-accent-hover text-accent-fg px-4 py-2 rounded-lg text-sm font-medium">Simpan</button>
-                    <button type="button" wire:click="$set('showCreate', false)" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium">Batal</button>
+                    <button type="submit" wire:loading.attr="disabled" class="bg-accent hover:bg-accent-hover text-accent-fg px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">Simpan</button>
+                    <button type="button" wire:click="$set('showCreate', false)" wire:loading.attr="disabled" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">Batal</button>
                 </div>
             </form>
         </div>
@@ -61,8 +61,8 @@
                     @error('newPassword') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
                 </div>
                 <div class="mt-4 flex gap-2">
-                    <button type="submit" class="bg-accent hover:bg-accent-hover text-accent-fg px-4 py-2 rounded-lg text-sm font-medium">Simpan Password</button>
-                    <button type="button" wire:click="cancelReset" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium">Batal</button>
+                    <button type="submit" wire:loading.attr="disabled" class="bg-accent hover:bg-accent-hover text-accent-fg px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">Simpan Password</button>
+                    <button type="button" wire:click="cancelReset" wire:loading.attr="disabled" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">Batal</button>
                 </div>
             </form>
         </div>
@@ -94,12 +94,12 @@
                             </select>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
-                            <button wire:click="toggleActive({{ $user->id }})" class="px-2 py-1 rounded-full text-xs font-semibold {{ $user->is_active ? 'bg-success text-success-fg' : 'bg-danger-soft text-danger-fg' }}">
+                            <button wire:click="toggleActive({{ $user->id }})" wire:loading.attr="disabled" class="px-2 py-1 rounded-full text-xs font-semibold {{ $user->is_active ? 'bg-success text-success-fg' : 'bg-danger-soft text-danger-fg' }} disabled:opacity-50">
                                 {{ $user->is_active ? 'Aktif' : 'Nonaktif' }}
                             </button>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
-                            <button wire:click="resetPassword({{ $user->id }})" class="text-accent hover:text-accent-hover">Reset Password</button>
+                            <button wire:click="resetPassword({{ $user->id }})" wire:loading.attr="disabled" class="text-accent hover:text-accent-hover disabled:opacity-50">Reset Password</button>
                         </td>
                     </tr>
                 @empty

@@ -42,11 +42,11 @@
 
     {{-- Detail Modal --}}
     @if ($showDetail && $detailAnggota)
-        <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" wire:click.self="$set('showDetail', false)">
-            <div class="bg-surface-raised rounded-lg shadow-xl max-w-2xl w-full mx-4 p-6">
+        <div x-data="{ open: true }" x-show="open" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" wire:click.self="$set('showDetail', false)">
+            <div class="bg-surface-raised rounded-lg shadow-xl max-w-2xl w-full mx-4 p-6" @click.stop>
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-semibold text-text-primary">Detail Anggota</h2>
-                    <button wire:click="$set('showDetail', false)" class="text-text-secondary hover:text-text-primary">&times;</button>
+                    <button wire:click="$set('showDetail', false)" class="text-text-secondary hover:text-text-primary text-xl leading-none">&times;</button>
                 </div>
                 <div class="grid grid-cols-2 gap-4 text-sm">
                     <div><span class="font-medium text-text-secondary">NIS:</span> {{ $detailAnggota->nis }}</div>
@@ -119,8 +119,8 @@
                     </div>
                 </div>
                 <div class="mt-4 flex gap-2">
-                    <button type="submit" class="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg text-sm font-medium">Simpan</button>
-                    <button type="button" wire:click="cancel" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium">Batal</button>
+                    <button type="submit" wire:loading.attr="disabled" class="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">Simpan</button>
+                    <button type="button" wire:click="cancel" wire:loading.attr="disabled" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">Batal</button>
                 </div>
             </form>
         </div>
@@ -154,9 +154,9 @@
                             </span>
                         </td>
                         <td class="px-4 py-3 text-sm space-x-1">
-                            <button wire:click="detail({{ $item->id }})" class="text-success hover:text-success-fg">Detail</button>
-                            <button wire:click="edit({{ $item->id }})" class="text-accent hover:text-accent-hover">Edit</button>
-                            <button wire:click="delete({{ $item->id }})" wire:confirm="Yakin hapus anggota ini?" class="text-danger-fg hover:text-danger-fg">Hapus</button>
+                            <button wire:click="detail({{ $item->id }})" wire:loading.attr="disabled" class="text-success hover:text-success-fg disabled:opacity-50">Detail</button>
+                            <button wire:click="edit({{ $item->id }})" wire:loading.attr="disabled" class="text-accent hover:text-accent-hover disabled:opacity-50">Edit</button>
+                            <button wire:click="delete({{ $item->id }})" wire:loading.attr="disabled" wire:confirm="Yakin hapus anggota ini?" class="text-danger-fg hover:text-danger-fg disabled:opacity-50">Hapus</button>
                         </td>
                     </tr>
                 @empty

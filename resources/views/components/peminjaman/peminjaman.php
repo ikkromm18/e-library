@@ -6,12 +6,16 @@ use App\Exceptions\MelebihiLimitException;
 use App\Exceptions\StokHabisException;
 use App\Models\Anggota;
 use App\Models\Buku;
+use App\Models\Peminjaman;
 use App\Models\Setting;
 use App\Services\PeminjamanService;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 new class extends Component
 {
+    use WithPagination;
+
     public $searchAnggota = '';
 
     public $hasilAnggota = [];
@@ -26,9 +30,20 @@ new class extends Component
 
     public $maksimalBuku = 3;
 
+    public $lastPeminjamanId = null;
+
     public function mount(): void
     {
         $this->maksimalBuku = (int) Setting::get('maksimal_buku', 3);
+    }
+
+    public function resetForm(): void
+    {
+        $this->anggotaDipilih = null;
+        $this->cart = [];
+        $this->searchBuku = '';
+        $this->searchAnggota = '';
+        $this->lastPeminjamanId = null;
     }
 
     public function pilihAnggota($id): void
@@ -66,6 +81,7 @@ new class extends Component
         }
 
         $this->cart[] = ['id' => $buku->id, 'kode' => $buku->kode, 'judul' => $buku->judul];
+        $this->searchBuku = '';
     }
 
     public function hapusDariCart($index): void
@@ -100,6 +116,7 @@ new class extends Component
         }
 
         session()->flash('success', "Peminjaman {$peminjaman->no_transaksi} berhasil disimpan.");
+        $this->lastPeminjamanId = $peminjaman->id;
         $this->anggotaDipilih = null;
         $this->cart = [];
         $this->searchBuku = '';
@@ -124,6 +141,13 @@ new class extends Component
                 })->limit(5)->get()
             : collect();
 
-        return view('components.peminjaman.peminjaman');
+        $transaksiHariIni = Peminjaman::with(['anggota', 'details'])
+            ->whereDate('tanggal', today())
+            ->orderByDesc('created_at')
+            ->paginate(10, pageName: 'tpage');
+
+        return view('components.peminjaman.peminjaman', [
+            'transaksiHariIni' => $transaksiHariIni,
+        ]);
     }
 };

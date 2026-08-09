@@ -37,6 +37,21 @@
                         @error('maksimalBuku') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
                     </div>
                 </div>
+                <div class="border-t border-border pt-4 mt-4">
+                    <h3 class="font-semibold text-text-primary mb-3">Tanda Tangan Bukti Peminjaman</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary">Nama Petugas Penanda Tangan <span class="text-danger-fg">*</span></label>
+                            <input type="text" wire:model="namaPetugas" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent">
+                            @error('namaPetugas') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary">Jabatan Penanda Tangan <span class="text-danger-fg">*</span></label>
+                            <input type="text" wire:model="jabatanPetugas" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent">
+                            @error('jabatanPetugas') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="mt-6">
                 <button type="submit" class="bg-accent hover:bg-accent-hover text-accent-fg px-4 py-2 rounded-lg text-sm font-medium">Simpan</button>

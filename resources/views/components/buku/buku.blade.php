@@ -75,11 +75,11 @@
 
     {{-- Detail Modal --}}
     @if ($showDetail && $detailBuku)
-        <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" wire:click.self="$set('showDetail', false)">
-            <div class="bg-surface-raised rounded-lg shadow-xl max-w-2xl w-full mx-4 p-6">
+        <div x-data="{ open: true }" x-show="open" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" wire:click.self="$set('showDetail', false)">
+            <div class="bg-surface-raised rounded-lg shadow-xl max-w-2xl w-full mx-4 p-6" @click.stop>
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-semibold text-text-primary">Detail Buku</h2>
-                    <button wire:click="$set('showDetail', false)" class="text-text-secondary hover:text-text-primary">&times;</button>
+                    <button wire:click="$set('showDetail', false)" class="text-text-secondary hover:text-text-primary text-xl leading-none">&times;</button>
                 </div>
                 @if ($detailBuku->cover)
                     <img src="{{ asset('storage/'.$detailBuku->cover) }}" class="h-40 object-cover rounded-lg mb-4" alt="Cover {{ $detailBuku->judul }}">
@@ -186,26 +186,14 @@
                             <option value="tidak">Tidak Aktif</option>
                         </select>
                     </div>
-                    {{-- 
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-text-primary">Cover</label>
-                        @if ($cover)
-                            <img src="{{ $cover->temporaryUrl() }}" class="h-40 object-cover rounded-lg mb-2" alt="Preview cover">
-                        @elseif ($coverPath)
-                            <img src="{{ asset('storage/'.$coverPath) }}" class="h-40 object-cover rounded-lg mb-2" alt="Cover saat ini">
-                        @endif
-                        <input type="file" wire:model="cover" class="mt-1 block w-full text-sm text-text-secondary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-accent-soft file:text-accent hover:file:bg-accent">
-                        @error('cover') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
-                    </div>
-                    --}}
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-text-primary">Deskripsi</label>
                         <textarea wire:model="deskripsi" rows="3" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent"></textarea>
                     </div>
                 </div>
                 <div class="mt-4 flex gap-2">
-                    <button type="submit" class="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg text-sm font-medium">Simpan</button>
-                    <button type="button" wire:click="cancel" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium">Batal</button>
+                    <button type="submit" wire:loading.attr="disabled" class="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">Simpan</button>
+                    <button type="button" wire:click="cancel" wire:loading.attr="disabled" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed">Batal</button>
                 </div>
             </form>
         </div>
@@ -248,9 +236,9 @@
                             </span>
                         </td>
                         <td class="px-4 py-3 text-sm space-x-1">
-                            <button wire:click="detail({{ $buku->id }})" class="text-accent hover:text-text-primary">Detail</button>
-                            <button wire:click="edit({{ $buku->id }})" class="text-accent hover:text-accent-hover">Edit</button>
-                            <button wire:click="delete({{ $buku->id }})" wire:confirm="Yakin hapus buku ini?" class="text-danger-fg hover:text-danger-fg">Hapus</button>
+                            <button wire:click="detail({{ $buku->id }})" wire:loading.attr="disabled" class="text-accent hover:text-text-primary disabled:opacity-50">Detail</button>
+                            <button wire:click="edit({{ $buku->id }})" wire:loading.attr="disabled" class="text-accent hover:text-accent-hover disabled:opacity-50">Edit</button>
+                            <button wire:click="delete({{ $buku->id }})" wire:loading.attr="disabled" wire:confirm="Yakin hapus buku ini?" class="text-danger-fg hover:text-danger-fg disabled:opacity-50">Hapus</button>
                         </td>
                     </tr>
                 @empty
