@@ -1,10 +1,15 @@
+@php $appLogo = \App\Models\Setting::get('logo'); @endphp
 <nav x-data="{ open: false }" class="bg-surface border-b border-border">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-text-primary" />
+                        @if ($appLogo)
+                            <img src="{{ asset('storage/'.$appLogo) }}" class="block h-9 w-auto" alt="Logo">
+                        @else
+                            <x-application-logo class="block h-9 w-auto fill-current text-text-primary" />
+                        @endif
                     </a>
                 </div>
 
@@ -24,8 +29,11 @@
                     <x-nav-link :href="route('anggota.index')" :active="request()->routeIs('anggota.*')">
                         {{ __('Anggota') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('peminjaman.index')" :active="request()->routeIs('peminjaman.*')">
+                    <x-nav-link :href="route('peminjaman.index')" :active="request()->routeIs('peminjaman.index')">
                         {{ __('Peminjaman') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('peminjaman.per-siswa')" :active="request()->routeIs('peminjaman.per-siswa')">
+                        {{ __('Peminjam per Siswa') }}
                     </x-nav-link>
                     <x-nav-link :href="route('pengembalian.index')" :active="request()->routeIs('pengembalian.*')">
                         {{ __('Pengembalian') }}
@@ -104,8 +112,11 @@
             <x-responsive-nav-link :href="route('anggota.index')" :active="request()->routeIs('anggota.*')">
                 {{ __('Anggota') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('peminjaman.index')" :active="request()->routeIs('peminjaman.*')">
+            <x-responsive-nav-link :href="route('peminjaman.index')" :active="request()->routeIs('peminjaman.index')">
                 {{ __('Peminjaman') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('peminjaman.per-siswa')" :active="request()->routeIs('peminjaman.per-siswa')">
+                {{ __('Peminjam per Siswa') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('pengembalian.index')" :active="request()->routeIs('pengembalian.*')">
                 {{ __('Pengembalian') }}

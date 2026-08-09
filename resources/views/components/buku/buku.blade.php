@@ -1,7 +1,10 @@
-<div>
+<div wire:preserveScroll>
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-text-primary">Master Buku</h1>
-        <button wire:click="create" class="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg text-sm font-medium">Tambah Buku</button>
+        <div class="flex gap-2">
+            <a href="{{ route('buku.import') }}" class="bg-surface-muted hover:bg-surface-raised text-text-primary px-4 py-2 rounded-lg text-sm font-medium">Import Excel</a>
+            <button wire:click="create" class="bg-accent hover:bg-accent-hover text-white px-4 py-2 rounded-lg text-sm font-medium">Tambah Buku</button>
+        </div>
     </div>
 
     @if (session()->has('success'))
@@ -60,6 +63,14 @@
                 </select>
             </div>
         </div>
+        <div class="mt-3 flex items-center justify-end gap-2">
+            <span class="text-sm text-text-secondary">Baris per halaman:</span>
+            <select wire:model.live="perPage" class="rounded-md border-border shadow-sm text-sm">
+                @foreach ([10, 25, 50, 100] as $n)
+                    <option value="{{ $n }}">{{ $n }}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
 
     {{-- Detail Modal --}}
@@ -70,6 +81,9 @@
                     <h2 class="text-lg font-semibold text-text-primary">Detail Buku</h2>
                     <button wire:click="$set('showDetail', false)" class="text-text-secondary hover:text-text-primary">&times;</button>
                 </div>
+                @if ($detailBuku->cover)
+                    <img src="{{ asset('storage/'.$detailBuku->cover) }}" class="h-40 object-cover rounded-lg mb-4" alt="Cover {{ $detailBuku->judul }}">
+                @endif
                 <div class="grid grid-cols-2 gap-4 text-sm">
                     <div><span class="font-medium text-text-secondary">Kode:</span> {{ $detailBuku->kode }}</div>
                     <div><span class="font-medium text-text-secondary">ISBN:</span> {{ $detailBuku->isbn ?? '-' }}</div>
@@ -172,10 +186,18 @@
                             <option value="tidak">Tidak Aktif</option>
                         </select>
                     </div>
+                    {{-- 
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-text-primary">Cover</label>
+                        @if ($cover)
+                            <img src="{{ $cover->temporaryUrl() }}" class="h-40 object-cover rounded-lg mb-2" alt="Preview cover">
+                        @elseif ($coverPath)
+                            <img src="{{ asset('storage/'.$coverPath) }}" class="h-40 object-cover rounded-lg mb-2" alt="Cover saat ini">
+                        @endif
                         <input type="file" wire:model="cover" class="mt-1 block w-full text-sm text-text-secondary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-accent-soft file:text-accent hover:file:bg-accent">
+                        @error('cover') <span class="text-danger-fg text-sm">{{ $message }}</span> @enderror
                     </div>
+                    --}}
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-text-primary">Deskripsi</label>
                         <textarea wire:model="deskripsi" rows="3" class="mt-1 block w-full rounded-md border-border shadow-sm focus:border-accent focus:ring-accent"></textarea>
@@ -194,6 +216,7 @@
         <table class="min-w-full divide-y divide-border">
             <thead class="bg-surface-muted">
                 <tr>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-text-secondary uppercase">No</th>
                     <th class="px-4 py-3 text-left text-xs font-medium text-text-secondary uppercase">Kode</th>
                     <th class="px-4 py-3 text-left text-xs font-medium text-text-secondary uppercase">Judul</th>
                     <th class="px-4 py-3 text-left text-xs font-medium text-text-secondary uppercase">Kategori</th>
@@ -206,11 +229,19 @@
             <tbody class="divide-y divide-border">
                  @forelse (($bukuList ?? []) as $buku)
                     <tr>
-                        <td class="px-4 py-3 text-sm font-mono">{{ $buku->kode }}</td>
+                        <td class="px-4 py-3 text-sm text-text-secondary">{{ $bukuList->firstItem() + $loop->index }}</td>
+                        <td class="px-4 py-3 text-sm font-mono">
+                            <div class="flex items-center gap-2">
+                                @if ($buku->cover)
+                                    <img src="{{ asset('storage/'.$buku->cover) }}" class="h-10 w-8 object-cover rounded" alt="Cover">
+                                @endif
+                                <span>{{ $buku->kode }}</span>
+                            </div>
+                        </td>
                         <td class="px-4 py-3 text-sm font-medium text-text-primary">{{ $buku->judul }}</td>
                         <td class="px-4 py-3 text-sm text-text-secondary">{{ $buku->kategori->nama }}</td>
                         <td class="px-4 py-3 text-sm text-text-secondary">{{ $buku->rak->kode }}</td>
-                        <td class="px-4 py-3 text-sm text-text-secondary">{{ $buku->stokTersedia() }} / {{ $buku->jumlah_eksemplar }}</td>
+                        <td class="px-4 py-3 text-sm text-text-secondary">{{ ($buku->jumlah_eksemplar - (int) $buku->stok_dipakai) }} / {{ $buku->jumlah_eksemplar }}</td>
                         <td class="px-4 py-3 text-sm">
                             <span class="px-2 py-1 rounded-full text-xs {{ $buku->status === 'aktif' ? 'bg-success text-success-fg' : 'bg-danger text-danger-fg' }}">
                                 {{ $buku->status === 'aktif' ? 'Aktif' : 'Tidak' }}
@@ -223,7 +254,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="7" class="px-4 py-4 text-center text-sm text-text-secondary">Tidak ada buku ditemukan.</td></tr>
+                    <tr><td colspan="8" class="px-4 py-4 text-center text-sm text-text-secondary">Tidak ada buku ditemukan.</td></tr>
                 @endforelse
             </tbody>
         </table>
